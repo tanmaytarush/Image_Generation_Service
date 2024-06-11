@@ -1,0 +1,10 @@
+version: '0.4'
+services:
+  myservice:
+    platforms:
+      - architecture: amd64
+        os: linux
+      - architecture: arm64
+        os: linux
+      - architecture: nvidia
+        os: linux

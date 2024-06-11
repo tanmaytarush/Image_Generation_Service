@@ -1,0 +1,2 @@
+[console_scripts]
+diffuzers = diffuzers.cli.main:main

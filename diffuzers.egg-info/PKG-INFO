@@ -1,0 +1,136 @@
+Metadata-Version: 2.1
+Name: diffuzers
+Version: 0.3.5
+Summary: diffuzers
+Home-page: https://github.com/abhishekkrthakur/diffuzers
+Author: Abhishek Thakur
+Keywords: diffuzers diffusers
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: accelerate
+Requires-Dist: basicsr
+Requires-Dist: diffusers
+Requires-Dist: facexlib
+Requires-Dist: fairscale
+Requires-Dist: fastapi
+Requires-Dist: gfpgan
+Requires-Dist: huggingface_hub
+Requires-Dist: loguru
+Requires-Dist: opencv-python
+Requires-Dist: protobuf
+Requires-Dist: pyngrok
+Requires-Dist: python-multipart
+Requires-Dist: realesrgan
+Requires-Dist: streamlit
+Requires-Dist: streamlit-drawable-canvas
+Requires-Dist: st-clickable-images
+Requires-Dist: timm
+Requires-Dist: transformers
+Requires-Dist: uvicorn
+Requires-Dist: loguru
+Requires-Dist: starlette
+Requires-Dist: diffuzers
+Requires-Dist: Pillow
+Provides-Extra: dev
+Requires-Dist: black~=22.0; extra == "dev"
+Requires-Dist: isort==5.8.0; extra == "dev"
+Requires-Dist: flake8==3.9.2; extra == "dev"
+Requires-Dist: mypy==0.901; extra == "dev"
+Provides-Extra: quality
+Requires-Dist: black~=22.0; extra == "quality"
+Requires-Dist: isort==5.8.0; extra == "quality"
+Requires-Dist: flake8==3.9.2; extra == "quality"
+Requires-Dist: mypy==0.901; extra == "quality"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Provides-Extra: docs
+Requires-Dist: recommonmark; extra == "docs"
+Requires-Dist: sphinx==3.1.2; extra == "docs"
+Requires-Dist: sphinx-markdown-tables; extra == "docs"
+Requires-Dist: sphinx-rtd-theme==0.4.3; extra == "docs"
+Requires-Dist: sphinx-copybutton; extra == "docs"
+
+# diffuzers
+## Web UI and deployable API
+
+## Features available in the app:
+
+- text to image
+- image to image
+- instruct pix2pix
+- textual inversion
+- inpainting
+
+## Features available in the api:
+
+- text to image
+- image to image
+- instruct pix2pix
+- textual inversion
+- inpainting
+
+
+## Installation
+
+To install bleeding edge version of diffuzers, clone the repo and install it using pip.
+
+```bash
+git clone https://github.com/eclipse-tech/Img_Gen_Service
+cd Img_Gen_Service
+pip install -r requirements.txt
+```
+
+Installation using pip:
+    
+```bash 
+pip install diffuzers
+```
+
+## Usage
+
+### Web App
+To run the web app, run the following command:
+
+```bash
+streamlit run Home.py -- --device cuda, mps
+```
+
+### API
+
+To run the api, run the following command:
+
+
+```bash
+diffuzers api
+```
+
+Starting the API requires the following environment variables:
+
+```
+export X2IMG_MODEL=stabilityai/stable-diffusion-2-1
+export DEVICE=cuda
+```
+
+If you want to use inpainting:
+
+```
+export INPAINTING_MODEL=stabilityai/stable-diffusion-2-inpainting
+```
+
+To use long prompt weighting, use:
+
+```
+export PIPELINE=lpw_stable_diffusion
+```
+
+### FOR CLI OPTIONS REFER THE DOCUMENT FILE
