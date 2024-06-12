@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Image_Generation_Service"
+version = "0.1.0"
+description = "A service for generating images using machine learning models"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name="Tanmay Dikshit", email="tanmay.dikshit@pidilite.vc" }
+]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "accelerate",
+    "altair",
+    "basicsr",
+    "diffusers",
+    "facexlib",
+    "fairscale",
+    "fastapi",
+    "gfpgan",
+    "huggingface_hub",
+    "loguru",
+    "opencv-python",
+    "protobuf",
+    "pyngrok",
+    "python-multipart",
+    "realesrgan",
+    "streamlit",
+    "streamlit-drawable-canvas",
+    "st-clickable-images",
+    "timm",
+    "transformers",
+    "uvicorn",
+    "starlette",
+    "Pillow",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/Image_Generation_Service"

@@ -1,3 +1,4 @@
+import os
 import gc
 import json
 from dataclasses import dataclass
@@ -11,7 +12,6 @@ from PIL.PngImagePlugin import PngInfo
 
 from diffuzers import utils
 
-
 @dataclass
 class Text2Image:
     device: Optional[str] = None
@@ -22,47 +22,59 @@ class Text2Image:
         return f"Text2Image(model={self.model}, device={self.device}, output_path={self.output_path})"
 
     def __post_init__(self):
+        # Set environment variable to avoid memory fragmentation
+        os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'expandable_segments:True'
+        
         self.pipeline = DiffusionPipeline.from_pretrained(
             self.model,
             torch_dtype=torch.float16 if self.device == "cuda" else torch.float32,
         )
         self.pipeline.to(self.device)
         self.pipeline.safety_checker = utils.no_safety_checker
-        self._compatible_schedulers = self.pipeline.scheduler.compatibles
-        self.scheduler_config = self.pipeline.scheduler.config
-        self.compatible_schedulers = {scheduler.__name__: scheduler for scheduler in self._compatible_schedulers}
 
-        if self.device == "mps":
+        # Enable memory-efficient attention and slicing if using CUDA
+        if self.device == "cuda":
+            self.pipeline.unet.enable_gradient_checkpointing()
+            self.pipeline.enable_memory_efficient_attention()
             self.pipeline.enable_attention_slicing()
-            # warmup
+            self.pipeline.enable_xformers_memory_efficient_attention()
+            # Warmup with minimal steps
             prompt = "a photo of an astronaut riding a horse on mars"
             _ = self.pipeline(prompt, num_inference_steps=2)
+            # Clear cache after warmup
+            torch.cuda.empty_cache()
+            gc.collect()
 
     def _set_scheduler(self, scheduler_name):
-        scheduler = self.compatible_schedulers[scheduler_name].from_config(self.scheduler_config)
+        scheduler = self.pipeline.scheduler.compatibles[scheduler_name].from_config(self.pipeline.scheduler.config)
         self.pipeline.scheduler = scheduler
 
     def generate_image(self, prompt, negative_prompt, scheduler, image_size, num_images, guidance_scale, steps, seed):
         self._set_scheduler(scheduler)
         logger.info(self.pipeline.scheduler)
-        if self.device == "mps":
+        
+        if self.device == "cuda":
             generator = torch.manual_seed(seed)
-            num_images = 1
         else:
             generator = torch.Generator(device=self.device).manual_seed(seed)
-        num_images = int(num_images)
-        output_images = self.pipeline(
-            prompt,
-            negative_prompt=negative_prompt,
-            width=image_size[1],
-            height=image_size[0],
-            num_inference_steps=steps,
-            guidance_scale=guidance_scale,
-            num_images_per_prompt=num_images,
-            generator=generator,
-        ).images
-        torch.cuda.empty_cache()
-        gc.collect()
+        
+        output_images = []
+        for _ in range(num_images):
+            generated_image = self.pipeline(
+                prompt,
+                negative_prompt=negative_prompt,
+                width=image_size[1],
+                height=image_size[0],
+                num_inference_steps=steps,
+                guidance_scale=guidance_scale,
+                generator=generator,
+            ).images
+            output_images.extend(generated_image)
+            
+            # Clear cache after each image generation
+            torch.cuda.empty_cache()
+            gc.collect()
+        
         metadata = {
             "prompt": prompt,
             "negative_prompt": negative_prompt,
@@ -87,18 +99,19 @@ class Text2Image:
         return output_images, _metadata
 
     def app(self):
-        available_schedulers = list(self.compatible_schedulers.keys())
+        available_schedulers = list(self.pipeline.scheduler.compatibles.keys())
         if "EulerAncestralDiscreteScheduler" in available_schedulers:
             available_schedulers.insert(
                 0, available_schedulers.pop(available_schedulers.index("EulerAncestralDiscreteScheduler"))
             )
-        # with st.form(key="text2img"):
+        
         col1, col2 = st.columns(2)
         with col1:
             prompt = st.text_area("Prompt", "Blue elephant")
         with col2:
             negative_prompt = st.text_area("Negative Prompt", "")
-        # sidebar options
+
+        # Sidebar options
         scheduler = st.sidebar.selectbox("Scheduler", available_schedulers, index=0)
         image_height = st.sidebar.slider("Image height", 128, 1024, 512, 128)
         image_width = st.sidebar.slider("Image width", 128, 1024, 512, 128)

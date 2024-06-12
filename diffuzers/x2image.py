@@ -116,7 +116,7 @@ class X2Image:
             self.img2img_pipeline.enable_attention_slicing()
             url = "https://raw.githubusercontent.com/CompVis/stable-diffusion/main/assets/stable-samples/img2img/sketch-mountains-input.jpg"
             response = requests.get(url)
-            init_image = Image.open(BytesIO(response.content)).convert("RGB")
+            init_image = Image.open(BytesIO(response.content)).convert("RGBA")
             init_image.thumbnail((768, 768))
             prompt = "A fantasy landscape, trending on artstation"
             _ = self.img2img_pipeline(

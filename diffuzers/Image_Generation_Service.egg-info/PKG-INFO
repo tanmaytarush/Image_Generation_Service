@@ -1,0 +1,37 @@
+Metadata-Version: 2.1
+Name: Image_Generation_Service
+Version: 0.1.0
+Summary: A service for generating images using machine learning models
+Home-page: https://github.com/tanmaytarush/Image_Generation_Service
+Author: Tanmay Dikshit
+Author-email: Tanmay Dikshit <tanmay.dikshit@pidilite.vc>
+License: MIT
+Project-URL: Homepage, https://github.com/yourusername/Image_Generation_Service
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: accelerate
+Requires-Dist: altair
+Requires-Dist: basicsr
+Requires-Dist: diffusers
+Requires-Dist: facexlib
+Requires-Dist: fairscale
+Requires-Dist: fastapi
+Requires-Dist: gfpgan
+Requires-Dist: huggingface_hub
+Requires-Dist: loguru
+Requires-Dist: opencv-python
+Requires-Dist: protobuf
+Requires-Dist: pyngrok
+Requires-Dist: python-multipart
+Requires-Dist: realesrgan
+Requires-Dist: streamlit
+Requires-Dist: streamlit-drawable-canvas
+Requires-Dist: st-clickable-images
+Requires-Dist: timm
+Requires-Dist: transformers
+Requires-Dist: uvicorn
+Requires-Dist: starlette
+Requires-Dist: Pillow
