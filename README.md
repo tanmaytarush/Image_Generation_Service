@@ -42,6 +42,11 @@ To run the web app, run the following command:
 ```bash
 streamlit run Home.py -- --device cuda, mps
 ```
+For Lightning CUDA GPU based systems
+
+```bash
+streamlit run diffuzers/Home.py --server.address 0.0.0.0 --server.port 8800 -- --device cuda:0
+```
 
 ### API
 
