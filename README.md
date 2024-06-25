@@ -8,6 +8,7 @@
 - instruct pix2pix
 - textual inversion
 - inpainting
+- interrogator captioning
 
 ## Features available in the api:
 
@@ -16,6 +17,7 @@
 - instruct pix2pix
 - textual inversion
 - inpainting
+- interrogator captioning
 
 
 ## Installation
