@@ -1,22 +1,18 @@
-# diffuzers
-## Web UI and deployable API
+# Drishti
+## Web UI and deployable FAST-API
 
 ## Features available in the app:
 
 - text to image
 - image to image
-- instruct pix2pix
-- textual inversion
-- inpainting
+- instruct pix2piX
 - interrogator captioning
 
 ## Features available in the api:
 
 - text to image
 - image to image
-- instruct pix2pix
-- textual inversion
-- inpainting
+- instruct pix2piX
 - interrogator captioning
 
 
