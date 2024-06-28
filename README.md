@@ -53,6 +53,8 @@ To run the api, run the following command:
 
 ```bash
 diffuzers api
+or
+uvicorn diffuzers.api.main:app --reload
 ```
 
 Starting the API requires the following environment variables:
